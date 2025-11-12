@@ -1,40 +1,40 @@
 # import string
 
 
-# def ceaser_cryptography(text, key):
-#     if type(text) or str and type(key) or int:
-# 	    return "".join([chr((ord(char) + key) % 1_114_112) for char in text])
-#     else:
-#         raise(TypeError)
+def ceaser_cryptography(text, key):
+    if type(text) or str and type(key) or int:
+	    return "".join([chr((ord(char) + key) % 1_114_112) for char in text])
+    else:
+        raise(TypeError)
 
-# def ceaser_decode(crypted_text, key):
-# 	return ceaser_cryptography(crypted_text, -key)
-
-
-# def hack_cesar_cryptography(crypted_text, alphabet):
-#     if type(crypted_text) or str and type(alphabet) and str:
-#         for possible_key in range(0, 1_114_112):
-#             possible_uncryption = ceaser_decode(crypted_text, possible_key)
-#             if possible_uncryption[0] in alphabet:
-#                 print(possible_key)
-#                 print(possible_uncryption)
-#                 print("_"*20)
-
-#     else:
-#         raise(TypeError)
+def ceaser_decode(crypted_text, key):
+	return ceaser_cryptography(crypted_text, -key)
 
 
+def hack_cesar_cryptography(crypted_text, alphabet):
+    if type(crypted_text) or str and type(alphabet) and str:
+        for possible_key in range(0, 1_114_112):
+            possible_uncryption = ceaser_decode(crypted_text, possible_key)
+            if possible_uncryption[0] in alphabet:
+                print(possible_key)
+                print(possible_uncryption)
+                print("_"*20)
 
-# text = "MARS"
-# crypted_text = ceaser_cryptography(text, 10652)
-# initial_text = ceaser_decode(crypted_text, 10652)
-
-# print(crypted_text)
-# print(initial_text)
+    else:
+        raise(TypeError)
 
 
-# def convert_password_to_list_of_keys(password):
-#     return [ord(char) for char in password]
+
+text = "MARS"
+crypted_text = ceaser_cryptography(text, 10652)
+initial_text = ceaser_decode(crypted_text, 10652)
+
+print(crypted_text)
+print(initial_text)
+
+
+def convert_password_to_list_of_keys(password):
+    return [ord(char) for char in password]
 
 
 
@@ -62,9 +62,10 @@ def vigenere_cipher(text, password):
     list_of_keys = [ord(char) for char in password]
     crypted_text = []
     for index, char in enumerate(text):
-        crypted_text.append(ord(char) % 0x110000)
+        current_key = list_of_keys[index % len(list_of_keys)]
+        crypted_text.append(ceaser_cryptography(char, current_key))
 
-    return crypted_text
+    return "".join(crypted_text)
 
 phrase = "Then what shall we Die for ?"
 key = "AMOUR"
